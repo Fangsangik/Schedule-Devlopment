@@ -4,9 +4,14 @@ import com.example.scheduledevelopment.comment.dto.CommentDto;
 import com.example.scheduledevelopment.comment.entity.Comment;
 import com.example.scheduledevelopment.comment.mapper.CommentMapper;
 import com.example.scheduledevelopment.comment.repositroy.CommentRepository;
+import com.example.scheduledevelopment.member.dto.MemberDto;
+import com.example.scheduledevelopment.member.mapper.MemberMapper;
+import com.example.scheduledevelopment.member.service.MemberService;
+import com.example.scheduledevelopment.schedule.dto.ScheduleDto;
 import com.example.scheduledevelopment.schedule.entity.Schedule;
 import com.example.scheduledevelopment.schedule.mapper.ScheduleMapper;
 import com.example.scheduledevelopment.schedule.service.ScheduleService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,24 +22,34 @@ public class CommentService {
     private final CommentMapper commentMapper;
     private final ScheduleMapper scheduleMapper;
     private final ScheduleService scheduleService;
+    private final MemberService memberService;
+    private final MemberMapper memberMapper;
 
-    public CommentService(CommentRepository commentRepository, CommentMapper commentMapper, ScheduleMapper scheduleMapper, ScheduleService scheduleService) {
+    public CommentService(CommentRepository commentRepository, CommentMapper commentMapper,
+                          ScheduleMapper scheduleMapper, ScheduleService scheduleService, MemberService memberService, MemberMapper memberMapper) {
         this.commentRepository = commentRepository;
         this.commentMapper = commentMapper;
         this.scheduleMapper = scheduleMapper;
         this.scheduleService = scheduleService;
+        this.memberService = memberService;
+        this.memberMapper = memberMapper;
     }
 
     //create
     @Transactional
     public CommentDto createComment(CommentDto commentDto) {
-        Schedule schedule = commentDto.getScheduleDto() != null
-                ? scheduleMapper.toEntity(commentDto.getScheduleDto())
+        MemberDto member = commentDto.getMemberDto() != null
+                ? memberService.findMemberById(commentDto.getMemberDto().getId())
+                : null;
+
+        ScheduleDto schedule = commentDto.getScheduleDto() != null
+                ? scheduleService.findScheduleById(commentDto.getScheduleDto().getId())
                 : null;
 
         Comment comment = Comment.builder()
                 .commentDetails(commentDto.getCommentDetails())
-                .schedule(schedule)
+                .schedule(scheduleMapper.toEntity(schedule))
+                .member(memberMapper.toEntity(member))
                 .build();
 
         Comment createdComment = commentRepository.save(comment);
