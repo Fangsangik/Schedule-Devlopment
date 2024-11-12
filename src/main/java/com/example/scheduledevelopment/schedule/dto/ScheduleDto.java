@@ -1,14 +1,16 @@
 package com.example.scheduledevelopment.schedule.dto;
 
+import com.example.scheduledevelopment.comment.dto.CommentDto;
 import com.example.scheduledevelopment.member.dto.MemberDto;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -29,5 +31,6 @@ public class ScheduleDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private MemberDto memberDto;
+    private List<CommentDto> commentDtoList = new ArrayList<>();
 
 }
