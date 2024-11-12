@@ -48,6 +48,14 @@ public class ScheduleController {
         }
     }
 
+    @GetMapping("/schedules")
+    public Page<ScheduleDto> getAllSchedules(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return scheduleService.findAllSchedules(page, size);
+    }
+
     @GetMapping("/")
     public Page<ScheduleDto> getSchedules(
             @RequestParam(defaultValue = "0") int page,
