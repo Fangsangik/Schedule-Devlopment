@@ -19,5 +19,5 @@ public class CommentDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private ScheduleDto scheduleDto;
-    private MemberDto memberDto;
+//    private MemberDto memberDto;
 }

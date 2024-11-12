@@ -38,9 +38,9 @@ public class CommentService {
     //create
     @Transactional
     public CommentDto createComment(CommentDto commentDto) {
-        MemberDto member = commentDto.getMemberDto() != null
-                ? memberService.findMemberById(commentDto.getMemberDto().getId())
-                : null;
+//        MemberDto member = commentDto.getMemberDto() != null
+//                ? memberService.findMemberById(commentDto.getMemberDto().getId())
+//                : null;
 
         ScheduleDto schedule = commentDto.getScheduleDto() != null
                 ? scheduleService.findScheduleById(commentDto.getScheduleDto().getId())
@@ -49,7 +49,7 @@ public class CommentService {
         Comment comment = Comment.builder()
                 .commentDetails(commentDto.getCommentDetails())
                 .schedule(scheduleMapper.toEntity(schedule))
-                .member(memberMapper.toEntity(member))
+//                .member(memberMapper.toEntity(member))
                 .build();
 
         Comment createdComment = commentRepository.save(comment);
@@ -79,6 +79,9 @@ public class CommentService {
     @Transactional(readOnly = true)
     public CommentDto getCommentById(Long id) {
         Comment comment = validateId(id);
+//        if (comment.getMember() != null) {
+//            comment.getMember().getId(); // Lazy 로딩 강제 초기화
+//        }
         return commentMapper.toDto(comment);
     }
 

@@ -15,11 +15,11 @@ public interface CommentMapper {
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
 
     @Mapping(source = "schedule", target = "scheduleDto")
-    @Mapping(source = "member", target = "MemberDto")
+//    @Mapping(source = "member", target = "memberDto")
     CommentDto toDto(Comment comment);
 
     @Mapping(source = "scheduleDto", target = "schedule")
-    @Mapping(source = "memberDto", target = "member")
+//    @Mapping(source = "memberDto", target = "member")
     Comment toEntity(CommentDto commentDto);
 
     List<CommentDto> toDtoList(List<Comment> comments);
