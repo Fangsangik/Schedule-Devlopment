@@ -3,6 +3,7 @@ import com.example.scheduledevelopment.member.dto.LoginRequestDto;
 import com.example.scheduledevelopment.member.service.MemberServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(
-            @RequestBody LoginRequestDto loginRequestDto,
+            @Valid  @RequestBody LoginRequestDto loginRequestDto,
             HttpServletRequest request) {
         boolean isAuthenticate = memberServiceImpl.authenticate(loginRequestDto.getEmail(), loginRequestDto.getPassword());
 

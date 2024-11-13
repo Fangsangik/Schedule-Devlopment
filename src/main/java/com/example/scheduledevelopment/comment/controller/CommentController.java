@@ -2,6 +2,7 @@ package com.example.scheduledevelopment.comment.controller;
 
 import com.example.scheduledevelopment.comment.dto.CommentDto;
 import com.example.scheduledevelopment.comment.service.CommentServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class CommentController {
 
     @PostMapping("/")
     public ResponseEntity<?> create(
-            @RequestBody CommentDto commentDto) {
+            @Valid @RequestBody CommentDto commentDto) {
         try {
             CommentDto create = commentServiceImpl.createComment(commentDto);
             return ResponseEntity.ok(create);
@@ -40,7 +41,7 @@ public class CommentController {
     @PutMapping("/{commentId}")
     public ResponseEntity<?> update(
             @PathVariable Long commentId,
-            @RequestBody CommentDto commentDto) {
+            @Valid @RequestBody CommentDto commentDto) {
 
         try {
             CommentDto comment = commentServiceImpl.updateComment(commentId, commentDto);

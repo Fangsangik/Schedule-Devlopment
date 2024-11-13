@@ -2,6 +2,7 @@ package com.example.scheduledevelopment.schedule.controller;
 
 import com.example.scheduledevelopment.schedule.dto.ScheduleDto;
 import com.example.scheduledevelopment.schedule.service.ScheduleServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class ScheduleController {
 
     @PostMapping("/")
     public ResponseEntity<?> createSchedule(
-            @RequestBody ScheduleDto scheduleDto) {
+           @Valid @RequestBody ScheduleDto scheduleDto) {
         try {
             ScheduleDto createSchedule = scheduleServiceImpl.createSchedule(scheduleDto);
             return ResponseEntity.ok(createSchedule);
@@ -39,7 +40,7 @@ public class ScheduleController {
     @PutMapping("/{scheduleId}")
     public ResponseEntity<?> updateSchedule(
             @PathVariable Long scheduleId,
-            @RequestBody ScheduleDto scheduleDto) {
+            @Valid @RequestBody ScheduleDto scheduleDto) {
         try {
             ScheduleDto update = scheduleServiceImpl.updateSchedule(scheduleId, scheduleDto);
             return ResponseEntity.ok(update);
@@ -53,13 +54,6 @@ public class ScheduleController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        return scheduleServiceImpl.findAllSchedules(page, size);
-    }
-
-    @GetMapping("/")
-    public Page<ScheduleDto> getSchedules(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
         return scheduleServiceImpl.findAllSchedules(page, size);
     }
 

@@ -2,6 +2,7 @@ package com.example.scheduledevelopment.member.controller;
 
 import com.example.scheduledevelopment.member.dto.MemberDto;
 import com.example.scheduledevelopment.member.service.MemberServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,7 @@ public class RegisterController {
 
     @PostMapping("/")
     public ResponseEntity<?> createMember(
-            @RequestBody MemberDto memberDto
+            @Valid @RequestBody MemberDto memberDto
     ) {
         try {
             MemberDto createMember = memberServiceImpl.createMember(memberDto);

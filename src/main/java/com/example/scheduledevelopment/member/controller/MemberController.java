@@ -2,6 +2,7 @@ package com.example.scheduledevelopment.member.controller;
 
 import com.example.scheduledevelopment.member.dto.MemberDto;
 import com.example.scheduledevelopment.member.service.MemberServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class MemberController {
     @PutMapping("/{memberId}")
     public ResponseEntity<?> updateMember
             (@PathVariable("memberId") Long memberId,
-             @RequestBody MemberDto memberDto) {
+             @Valid @RequestBody MemberDto memberDto) {
         try {
             MemberDto updatedMember = memberServiceImpl.updateMember(memberId, memberDto);
             return ResponseEntity.ok(updatedMember);
