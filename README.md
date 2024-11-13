@@ -11,7 +11,7 @@
 그러면 회원이 삭제되면 스케줄 댓글이 삭제 되기 때문에 이렇게 설정 했습니다. 
 
 ## API 명세서 
-<a href>https://www.postman.com/gold-robot-131519/myapi/documentation/4xuox4d/scheduleapi?workspaceId=c64232d4-fdd3-46da-b127-41e93826dc0a</a href>
+<a href>https://www.postman.com/gold-robot-131519/myapi/documentation/4xuox4d/scheduleapi?workspaceId=c64232d4-fdd3-46da-b127-41e93826dc0a
 
 ## 👨‍💻 About Project
 ### Schedeule 
