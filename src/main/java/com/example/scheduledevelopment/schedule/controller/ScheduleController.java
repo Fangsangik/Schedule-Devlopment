@@ -1,7 +1,7 @@
 package com.example.scheduledevelopment.schedule.controller;
 
 import com.example.scheduledevelopment.schedule.dto.ScheduleDto;
-import com.example.scheduledevelopment.schedule.service.ScheduleService;
+import com.example.scheduledevelopment.schedule.service.ScheduleServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/schedules")
 public class ScheduleController {
-    private final ScheduleService scheduleService;
+    private final ScheduleServiceImpl scheduleServiceImpl;
 
-    public ScheduleController(ScheduleService scheduleService) {
-        this.scheduleService = scheduleService;
+    public ScheduleController(ScheduleServiceImpl scheduleServiceImpl) {
+        this.scheduleServiceImpl = scheduleServiceImpl;
     }
 
     @PostMapping("/")
     public ResponseEntity<?> createSchedule(
             @RequestBody ScheduleDto scheduleDto) {
         try {
-            ScheduleDto createSchedule = scheduleService.createSchedule(scheduleDto);
+            ScheduleDto createSchedule = scheduleServiceImpl.createSchedule(scheduleDto);
             return ResponseEntity.ok(createSchedule);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("스케줄 생성 실패");
@@ -29,7 +29,7 @@ public class ScheduleController {
     @GetMapping("/{scheduleId}")
     public ResponseEntity<?> findById(@PathVariable Long scheduleId) {
         try {
-            ScheduleDto scheduleById = scheduleService.findScheduleById(scheduleId);
+            ScheduleDto scheduleById = scheduleServiceImpl.findScheduleById(scheduleId);
             return ResponseEntity.ok(scheduleById);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("스케줄 아이디를 찾을 수 없습니다.");
@@ -41,7 +41,7 @@ public class ScheduleController {
             @PathVariable Long scheduleId,
             @RequestBody ScheduleDto scheduleDto) {
         try {
-            ScheduleDto update = scheduleService.updateSchedule(scheduleId, scheduleDto);
+            ScheduleDto update = scheduleServiceImpl.updateSchedule(scheduleId, scheduleDto);
             return ResponseEntity.ok(update);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("update에 실패했습니다.");
@@ -53,21 +53,21 @@ public class ScheduleController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        return scheduleService.findAllSchedules(page, size);
+        return scheduleServiceImpl.findAllSchedules(page, size);
     }
 
     @GetMapping("/")
     public Page<ScheduleDto> getSchedules(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return scheduleService.findAllSchedules(page, size);
+        return scheduleServiceImpl.findAllSchedules(page, size);
     }
 
     @DeleteMapping("/{scheduleId}")
     public ResponseEntity<?> deleteSchedule(
             @PathVariable Long scheduleId) {
         try {
-            scheduleService.deleteScheduleById(scheduleId);
+            scheduleServiceImpl.deleteScheduleById(scheduleId);
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("스케줄에 삭제 되었습니다.");

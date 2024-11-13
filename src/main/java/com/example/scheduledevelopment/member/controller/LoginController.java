@@ -1,7 +1,7 @@
 package com.example.scheduledevelopment.member.controller;
 
 import com.example.scheduledevelopment.member.dto.LoginRequest;
-import com.example.scheduledevelopment.member.service.MemberService;
+import com.example.scheduledevelopment.member.service.MemberServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class LoginController {
 
-    private final MemberService memberService;
+    private final MemberServiceImpl memberServiceImpl;
 
-    public LoginController(MemberService memberService) {
-        this.memberService = memberService;
+    public LoginController(MemberServiceImpl memberServiceImpl) {
+        this.memberServiceImpl = memberServiceImpl;
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(
             @RequestBody LoginRequest loginRequest,
             HttpServletRequest request) {
-        boolean isAuthenticate = memberService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
+        boolean isAuthenticate = memberServiceImpl.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
 
         if (isAuthenticate) {
             HttpSession session = request.getSession(true);
