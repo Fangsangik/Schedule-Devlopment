@@ -1,6 +1,5 @@
 package com.example.scheduledevelopment.member.controller;
-
-import com.example.scheduledevelopment.member.dto.LoginRequest;
+import com.example.scheduledevelopment.member.dto.LoginRequestDto;
 import com.example.scheduledevelopment.member.service.MemberServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -20,13 +19,13 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(
-            @RequestBody LoginRequest loginRequest,
+            @RequestBody LoginRequestDto loginRequestDto,
             HttpServletRequest request) {
-        boolean isAuthenticate = memberServiceImpl.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
+        boolean isAuthenticate = memberServiceImpl.authenticate(loginRequestDto.getEmail(), loginRequestDto.getPassword());
 
         if (isAuthenticate) {
             HttpSession session = request.getSession(true);
-            session.setAttribute("email", loginRequest.getEmail());
+            session.setAttribute("email", loginRequestDto.getEmail());
             return ResponseEntity.ok("로그인 성공!");
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 이메일 혹은 비밀번호 입니다.");
