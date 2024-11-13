@@ -1,4 +1,4 @@
-package com.example.scheduledevelopment.util;
+package com.example.scheduledevelopment.common;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,8 +1,7 @@
 package com.example.scheduledevelopment.comment.entity;
 
-import com.example.scheduledevelopment.member.entity.Member;
 import com.example.scheduledevelopment.schedule.entity.Schedule;
-import com.example.scheduledevelopment.util.BaseEntity;
+import com.example.scheduledevelopment.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

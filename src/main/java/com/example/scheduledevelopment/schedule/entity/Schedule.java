@@ -2,15 +2,13 @@ package com.example.scheduledevelopment.schedule.entity;
 
 import com.example.scheduledevelopment.comment.entity.Comment;
 import com.example.scheduledevelopment.member.entity.Member;
-import com.example.scheduledevelopment.util.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.scheduledevelopment.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
