@@ -1,31 +1,37 @@
 package com.example.scheduledevelopment.schedule.service;
 
+import com.example.scheduledevelopment.comment.entity.QComment;
 import com.example.scheduledevelopment.member.entity.Member;
 import com.example.scheduledevelopment.member.mapper.MemberMapper;
 import com.example.scheduledevelopment.schedule.dto.ScheduleDto;
+import com.example.scheduledevelopment.schedule.entity.QSchedule;
 import com.example.scheduledevelopment.schedule.entity.Schedule;
 import com.example.scheduledevelopment.schedule.mapper.ScheduleMapper;
 import com.example.scheduledevelopment.schedule.repository.ScheduleRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final ScheduleMapper scheduleMapper;
     private final MemberMapper memberMapper;
+    private final JPAQueryFactory queryFactory;
 
-    public ScheduleService(ScheduleRepository scheduleRepository, ScheduleMapper scheduleMapper, MemberMapper memberMapper) {
+    public ScheduleService(ScheduleRepository scheduleRepository, ScheduleMapper scheduleMapper, MemberMapper memberMapper, JPAQueryFactory queryFactory) {
         this.scheduleRepository = scheduleRepository;
         this.scheduleMapper = scheduleMapper;
         this.memberMapper = memberMapper;
+
+        this.queryFactory = queryFactory;
     }
 
     //생성
@@ -75,9 +81,35 @@ public class ScheduleService {
     @Transactional(readOnly = true)
     public Page<ScheduleDto> findAllSchedules(int page, int size) {
         size = (size > 0) ? size : 10;
-        PageRequest pageable = PageRequest.of(page, size, Sort.by("updatedAt").descending());
-        Page<Schedule> schedules = scheduleRepository.findAll(pageable);
-        return schedules.map(scheduleMapper::toDto);
+        Pageable pageable = PageRequest.of(page, size);
+
+        QSchedule schedule = QSchedule.schedule;
+        QComment comment = QComment.comment;
+
+        List<ScheduleDto> results = queryFactory
+                .select(Projections.constructor(ScheduleDto.class,
+                        schedule.id,
+                        schedule.author,
+                        schedule.title,
+                        schedule.todo,
+                        schedule.createdAt,
+                        schedule.updatedAt,
+                        comment.count().as("commentCount")
+                ))
+                .from(schedule)
+                .leftJoin(comment).on(comment.schedule.id.eq(schedule.id))
+                .groupBy(schedule.id)
+                .orderBy(schedule.updatedAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        long total = queryFactory.select(
+                schedule.count())
+                .from(schedule)
+                .fetchOne();
+
+        return new PageImpl<>(results, pageable, total);
     }
 
     private Schedule validateOfId(Long id) {

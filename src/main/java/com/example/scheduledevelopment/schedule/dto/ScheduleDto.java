@@ -31,6 +31,16 @@ public class ScheduleDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private MemberDto memberDto;
-    private List<CommentDto> commentDtoList = new ArrayList<>();
+    private Long commentCount;
+
+    public ScheduleDto(Long id, String author, String title, String todo, LocalDateTime createdAt, LocalDateTime updatedAt, Long commentCount) {
+        this.id = id;
+        this.author = author;
+        this.title = title;
+        this.todo = todo;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.commentCount = commentCount;
+    }
 
 }
