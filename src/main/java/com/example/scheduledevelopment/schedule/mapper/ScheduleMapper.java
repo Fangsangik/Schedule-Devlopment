@@ -6,22 +6,18 @@ import com.example.scheduledevelopment.schedule.dto.ScheduleDto;
 import com.example.scheduledevelopment.schedule.entity.Schedule;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring", uses = {MemberMapper.class, CommentMapper.class})
 public interface ScheduleMapper {
     ScheduleMapper INSTANCE = Mappers.getMapper(ScheduleMapper.class);
 
-    @Mappings({
-            @Mapping(source = "member", target = "memberDto"),
-            @Mapping(source = "comments", target = "commentDtoList")
-    }) // Entity -> Dto
+    @Mapping(source = "member", target = "memberDto")
+// Entity -> Dto
     ScheduleDto toDto(Schedule schedule);
 
-    @Mappings({
-            @Mapping(source = "memberDto", target = "member"),
-            @Mapping(source = "commentDtoList", target = "comments")
-    }) // Dto -> Entity
+
+    @Mapping(source = "memberDto", target = "member")
+        // Dto -> Entity
     Schedule toEntity(ScheduleDto scheduleDto);
 }
