@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
-public class BaseEntity {
+@EntityListeners(AuditingEntityListener.class) //Auditing을 사용하겠다고 선언
+public abstract class BaseEntity {
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
