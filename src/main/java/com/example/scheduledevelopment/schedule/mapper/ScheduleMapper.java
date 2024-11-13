@@ -8,6 +8,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+//처음에 생성자를 적용해보고 불편하다면 -> Mapper든 다른 방법으로 간다.
+//Mapstruct를 써야 하는 이유 vs 생성자를 써야 하는 이유
 @Mapper(componentModel = "spring", uses = {MemberMapper.class, CommentMapper.class})
 public interface ScheduleMapper {
     ScheduleMapper INSTANCE = Mappers.getMapper(ScheduleMapper.class);

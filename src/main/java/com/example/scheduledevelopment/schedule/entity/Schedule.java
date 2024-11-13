@@ -36,7 +36,11 @@ public class Schedule extends BaseEntity {
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-
+    /**
+     * 메서드를 개별적으로 분리한이유
+     * 명확한 개별적 책임 부여
+     * 비즈니스 로직 반영 - 검증이나 수정할때 유지 보수성에서 이득
+     */
     public void updateAuthor(String author) {
         this.author = author;
     }
