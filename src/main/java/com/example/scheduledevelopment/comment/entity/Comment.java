@@ -24,10 +24,6 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member_id")
-//    private Member member;
-
     public void updateCommentDetails(String commentDetails) {
         this.commentDetails = commentDetails;
     }

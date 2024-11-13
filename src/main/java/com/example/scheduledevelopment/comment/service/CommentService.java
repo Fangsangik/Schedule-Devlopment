@@ -22,25 +22,18 @@ public class CommentService {
     private final CommentMapper commentMapper;
     private final ScheduleMapper scheduleMapper;
     private final ScheduleService scheduleService;
-    private final MemberService memberService;
-    private final MemberMapper memberMapper;
 
     public CommentService(CommentRepository commentRepository, CommentMapper commentMapper,
-                          ScheduleMapper scheduleMapper, ScheduleService scheduleService, MemberService memberService, MemberMapper memberMapper) {
+                          ScheduleMapper scheduleMapper, ScheduleService scheduleService) {
         this.commentRepository = commentRepository;
         this.commentMapper = commentMapper;
         this.scheduleMapper = scheduleMapper;
         this.scheduleService = scheduleService;
-        this.memberService = memberService;
-        this.memberMapper = memberMapper;
     }
 
     //create
     @Transactional
     public CommentDto createComment(CommentDto commentDto) {
-//        MemberDto member = commentDto.getMemberDto() != null
-//                ? memberService.findMemberById(commentDto.getMemberDto().getId())
-//                : null;
 
         ScheduleDto schedule = commentDto.getScheduleDto() != null
                 ? scheduleService.findScheduleById(commentDto.getScheduleDto().getId())
@@ -49,7 +42,6 @@ public class CommentService {
         Comment comment = Comment.builder()
                 .commentDetails(commentDto.getCommentDetails())
                 .schedule(scheduleMapper.toEntity(schedule))
-//                .member(memberMapper.toEntity(member))
                 .build();
 
         Comment createdComment = commentRepository.save(comment);
