@@ -1,5 +1,6 @@
 package com.example.scheduledevelopment.comment.entity;
 
+import com.example.scheduledevelopment.member.entity.Member;
 import com.example.scheduledevelopment.schedule.entity.Schedule;
 import com.example.scheduledevelopment.common.BaseEntity;
 import jakarta.persistence.*;
@@ -22,6 +23,10 @@ public class Comment extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     public void updateCommentDetails(String commentDetails) {
         this.commentDetails = commentDetails;

@@ -18,5 +18,6 @@ public class CommentResponseDto {
     private String commentDetails;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Long memberId;
     private Long scheduleId;
 }

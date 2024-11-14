@@ -1,5 +1,6 @@
 package com.example.scheduledevelopment.member.entity;
 
+import com.example.scheduledevelopment.comment.entity.Comment;
 import com.example.scheduledevelopment.member.dto.MemberDto;
 import com.example.scheduledevelopment.schedule.entity.Schedule;
 import com.example.scheduledevelopment.common.BaseEntity;
@@ -29,6 +30,10 @@ public class Member extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Schedule> schedules = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Comment> members = new ArrayList<>();
 
     /**
      * 메서드를 개별적으로 분리한이유

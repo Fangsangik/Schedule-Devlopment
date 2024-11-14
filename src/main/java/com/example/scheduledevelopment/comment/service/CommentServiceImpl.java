@@ -4,6 +4,9 @@ import com.example.scheduledevelopment.comment.dto.CommentDto;
 import com.example.scheduledevelopment.comment.entity.Comment;
 import com.example.scheduledevelopment.comment.mapper.CommentMapper;
 import com.example.scheduledevelopment.comment.repositroy.CommentRepository;
+import com.example.scheduledevelopment.member.dto.MemberDto;
+import com.example.scheduledevelopment.member.mapper.MemberMapper;
+import com.example.scheduledevelopment.member.service.MemberServiceImpl;
 import com.example.scheduledevelopment.schedule.dto.ScheduleDto;
 import com.example.scheduledevelopment.schedule.entity.Schedule;
 import com.example.scheduledevelopment.schedule.mapper.ScheduleMapper;
@@ -18,19 +21,27 @@ public class CommentServiceImpl implements CommentService {
     private final CommentMapper commentMapper;
     private final ScheduleMapper scheduleMapper;
     private final ScheduleServiceImpl scheduleServiceImpl;
+    private final MemberServiceImpl memberServiceImpl;
+    private final MemberMapper memberMapper;
 
     public CommentServiceImpl(CommentRepository commentRepository, CommentMapper commentMapper,
-                              ScheduleMapper scheduleMapper, ScheduleServiceImpl scheduleServiceImpl) {
+                              ScheduleMapper scheduleMapper, ScheduleServiceImpl scheduleServiceImpl, MemberServiceImpl memberServiceImpl, MemberMapper memberMapper) {
         this.commentRepository = commentRepository;
         this.commentMapper = commentMapper;
         this.scheduleMapper = scheduleMapper;
         this.scheduleServiceImpl = scheduleServiceImpl;
+        this.memberServiceImpl = memberServiceImpl;
+        this.memberMapper = memberMapper;
     }
 
     //create
     @Override
     @Transactional
     public CommentDto createComment(CommentDto commentDto) {
+
+        MemberDto member = commentDto.getMemberDto() != null ?
+                memberServiceImpl.findMemberById(commentDto.getMemberDto().getId()) :
+                null;
 
         ScheduleDto schedule = commentDto.getScheduleDto() != null
                 ? scheduleServiceImpl.findScheduleById(commentDto.getScheduleDto().getId())
@@ -39,6 +50,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = Comment.builder()
                 .commentDetails(commentDto.getCommentDetails())
                 .schedule(scheduleMapper.toEntity(schedule))
+                .member(memberMapper.toEntity(member))
                 .build();
 
         Comment createdComment = commentRepository.save(comment);
@@ -71,9 +83,6 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(readOnly = true)
     public CommentDto getCommentById(Long id) {
         Comment comment = validateId(id);
-//        if (comment.getMember() != null) {
-//            comment.getMember().getId(); // Lazy 로딩 강제 초기화
-//        }
         return commentMapper.toDto(comment);
     }
 
@@ -90,5 +99,9 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 comment을 찾을 수 없습니다."));
 
         return comment;
+    }
+
+    public CommentRepository getCommentRepository() {
+        return commentRepository;
     }
 }
