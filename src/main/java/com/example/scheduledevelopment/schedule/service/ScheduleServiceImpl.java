@@ -1,7 +1,9 @@
 package com.example.scheduledevelopment.schedule.service;
 
 import com.example.scheduledevelopment.comment.entity.QComment;
+import com.example.scheduledevelopment.member.dto.MemberDto;
 import com.example.scheduledevelopment.member.entity.Member;
+import com.example.scheduledevelopment.member.entity.QMember;
 import com.example.scheduledevelopment.member.mapper.MemberMapper;
 import com.example.scheduledevelopment.schedule.dto.ScheduleDto;
 import com.example.scheduledevelopment.schedule.entity.QSchedule;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static com.example.scheduledevelopment.comment.entity.QComment.comment;
 
 @Slf4j
 @Service
@@ -71,7 +75,17 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional(readOnly = true)
     public ScheduleDto findScheduleById(Long id) {
         Schedule findById = validateOfId(id);
-        return scheduleMapper.toDto(findById);
+
+        long commentCount = queryFactory.select(
+                comment.count())
+                .from(comment)
+                .where(comment.schedule.id.eq(id))
+                .fetchOne();
+
+        ScheduleDto scheduleDto = scheduleMapper.toDto(findById);
+        scheduleDto.setCommentCount(commentCount);
+
+        return scheduleDto;
     }
 
     //삭제

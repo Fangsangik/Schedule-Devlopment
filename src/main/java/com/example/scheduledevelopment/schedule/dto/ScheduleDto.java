@@ -1,6 +1,5 @@
 package com.example.scheduledevelopment.schedule.dto;
 
-import com.example.scheduledevelopment.comment.dto.CommentDto;
 import com.example.scheduledevelopment.member.dto.MemberDto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -9,8 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -40,6 +37,10 @@ public class ScheduleDto {
         this.todo = todo;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.commentCount = commentCount;
+    }
+
+    public void setCommentCount(Long commentCount) {
         this.commentCount = commentCount;
     }
 
