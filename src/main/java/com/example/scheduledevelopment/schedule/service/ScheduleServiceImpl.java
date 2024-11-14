@@ -66,7 +66,16 @@ public class ScheduleServiceImpl implements ScheduleService {
             findById.updateMember(member); // 엔티티 메서드를 통해 멤버 수정
         }
 
-        return scheduleMapper.toDto(findById);
+        long commentCount = queryFactory.select(
+                        comment.count())
+                .from(comment)
+                .where(comment.schedule.id.eq(id))
+                .fetchOne();
+
+
+        scheduleDto = scheduleMapper.toDto(findById);
+        scheduleDto.setCommentCount(commentCount);
+        return scheduleDto;
     }
 
     //조회
