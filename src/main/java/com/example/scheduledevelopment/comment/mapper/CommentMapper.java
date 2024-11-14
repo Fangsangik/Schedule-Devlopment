@@ -1,6 +1,7 @@
 package com.example.scheduledevelopment.comment.mapper;
 
 import com.example.scheduledevelopment.comment.dto.CommentDto;
+import com.example.scheduledevelopment.comment.dto.CommentResponseDto;
 import com.example.scheduledevelopment.comment.entity.Comment;
 import org.mapstruct.Mapper;
 
@@ -18,5 +19,8 @@ public interface CommentMapper {
 
     @Mapping(source = "scheduleDto", target = "schedule")
     Comment toEntity(CommentDto commentDto);
+
+    @Mapping(source = "scheduleDto.id", target = "scheduleId")
+    CommentResponseDto toResponseDto(CommentDto commentDto);
 
 }

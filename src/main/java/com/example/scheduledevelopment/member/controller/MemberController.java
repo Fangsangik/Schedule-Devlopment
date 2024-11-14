@@ -1,6 +1,8 @@
 package com.example.scheduledevelopment.member.controller;
 
 import com.example.scheduledevelopment.member.dto.MemberDto;
+import com.example.scheduledevelopment.member.dto.MemberResponseDto;
+import com.example.scheduledevelopment.member.mapper.MemberMapper;
 import com.example.scheduledevelopment.member.service.MemberServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +13,11 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberServiceImpl memberServiceImpl;
+    private final MemberMapper memberMapper;
 
-    public MemberController(MemberServiceImpl memberServiceImpl) {
+    public MemberController(MemberServiceImpl memberServiceImpl, MemberMapper memberMapper) {
         this.memberServiceImpl = memberServiceImpl;
+        this.memberMapper = memberMapper;
     }
 
     @PutMapping("/{memberId}")
@@ -22,7 +26,8 @@ public class MemberController {
              @Valid @RequestBody MemberDto memberDto) {
         try {
             MemberDto updatedMember = memberServiceImpl.updateMember(memberId, memberDto);
-            return ResponseEntity.ok(updatedMember);
+            MemberResponseDto responseDto = memberMapper.toResponseDto(updatedMember);
+            return ResponseEntity.ok(responseDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("회원 update 실패");
         }
@@ -32,7 +37,8 @@ public class MemberController {
     public ResponseEntity<?> getMember(@PathVariable("memberId") Long memberId) {
         try {
             MemberDto memberById = memberServiceImpl.findMemberById(memberId);
-            return ResponseEntity.ok(memberById);
+            MemberResponseDto responseDto = memberMapper.toResponseDto(memberById);
+            return ResponseEntity.ok(responseDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("회원 조회에 실패했습니다.");
         }

@@ -1,6 +1,8 @@
 package com.example.scheduledevelopment.comment.controller;
 
 import com.example.scheduledevelopment.comment.dto.CommentDto;
+import com.example.scheduledevelopment.comment.dto.CommentResponseDto;
+import com.example.scheduledevelopment.comment.mapper.CommentMapper;
 import com.example.scheduledevelopment.comment.service.CommentServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +13,11 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
 
     private final CommentServiceImpl commentServiceImpl;
+    private final CommentMapper commentMapper;
 
-    public CommentController(CommentServiceImpl commentServiceImpl) {
+    public CommentController(CommentServiceImpl commentServiceImpl, CommentMapper commentMapper) {
         this.commentServiceImpl = commentServiceImpl;
+        this.commentMapper = commentMapper;
     }
 
     @GetMapping("/{commentId}")
@@ -21,7 +25,8 @@ public class CommentController {
             @PathVariable Long commentId) {
         try {
             CommentDto commentById = commentServiceImpl.getCommentById(commentId);
-            return ResponseEntity.ok(commentById);
+            CommentResponseDto responseDto = commentMapper.toResponseDto(commentById);
+            return ResponseEntity.ok(responseDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("comments를 찾을 수 없습니다.");
         }
@@ -32,7 +37,8 @@ public class CommentController {
             @Valid @RequestBody CommentDto commentDto) {
         try {
             CommentDto create = commentServiceImpl.createComment(commentDto);
-            return ResponseEntity.ok(create);
+            CommentResponseDto responseDto = commentMapper.toResponseDto(create);
+            return ResponseEntity.ok(responseDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("생성에 실패했습니다.");
         }
@@ -45,7 +51,8 @@ public class CommentController {
 
         try {
             CommentDto comment = commentServiceImpl.updateComment(commentId, commentDto);
-            return ResponseEntity.ok(comment);
+            CommentResponseDto responseDto = commentMapper.toResponseDto(comment);
+            return ResponseEntity.ok(responseDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("update 실패했습니다.");
         }
