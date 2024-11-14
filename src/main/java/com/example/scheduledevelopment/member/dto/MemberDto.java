@@ -1,5 +1,6 @@
 package com.example.scheduledevelopment.member.dto;
 
+import com.example.scheduledevelopment.member.entity.Member;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

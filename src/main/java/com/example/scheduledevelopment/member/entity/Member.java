@@ -1,5 +1,6 @@
 package com.example.scheduledevelopment.member.entity;
 
+import com.example.scheduledevelopment.member.dto.MemberDto;
 import com.example.scheduledevelopment.schedule.entity.Schedule;
 import com.example.scheduledevelopment.common.BaseEntity;
 import jakarta.persistence.*;
@@ -45,4 +46,20 @@ public class Member extends BaseEntity {
     public void updatePassword(String password) {
         this.password = password;
     }
+
+    /**
+     * 다음번에 적용해볼 패턴
+     */
+//    public static MemberDto toDto(Member member) {
+//        return MemberDto.builder()
+//                .id(member.getId())
+//                .name(member.getName())
+//                .email(member.getEmail())
+//                .password(member.getPassword())
+//                .createdAt(member.getCreatedAt())
+//                .updatedAt(member.getUpdatedAt())
+//                .build();
+//    }
+
+    //빌드 custom화 -> 빌드 하는 타임에 update 맞게 적용
 }
