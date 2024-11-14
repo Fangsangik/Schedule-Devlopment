@@ -34,7 +34,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         this.scheduleRepository = scheduleRepository;
         this.scheduleMapper = scheduleMapper;
         this.memberMapper = memberMapper;
-
         this.queryFactory = queryFactory;
     }
 
@@ -99,6 +98,12 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional(readOnly = true)
     public Page<ScheduleDto> findAllSchedules(int page, int size) {
+        /**
+         * QueryDsl을 사용한 이유
+         * JPA명명 규칙이 늘어나면, 오타라던지, 정확한 의미를 파악하기 어렵기도 하고,
+         * 자동으로 join 해서 가져온다고 하지만, QueryDSL을 사용함으로 join을 직접 지정해서 사용 할 수 있기 때문
+         */
+
         size = (size > 0) ? size : 10;
         Pageable pageable = PageRequest.of(page, size);
 
