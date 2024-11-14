@@ -38,4 +38,24 @@ public class MemberDto {
                 .password(password)
                 .build();
     }
+
+    public MemberDto(Long id, String email, String name, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    /**
+     * 다음번에 적용해볼 패턴
+     */
+//    public static Member toEntity(MemberDto memberDto) {
+//        return Member.builder()
+//                .id(memberDto.getId())
+//                .email(memberDto.getEmail())
+//                .name(memberDto.getName())
+//                .password(memberDto.getPassword())
+//                .build();
+//    }
 }

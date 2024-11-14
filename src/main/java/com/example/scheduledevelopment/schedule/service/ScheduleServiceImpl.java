@@ -89,6 +89,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         Pageable pageable = PageRequest.of(page, size);
 
         QSchedule schedule = QSchedule.schedule;
+        QMember member = QMember.member;
         QComment comment = QComment.comment;
 
         List<ScheduleDto> results = queryFactory
@@ -99,11 +100,19 @@ public class ScheduleServiceImpl implements ScheduleService {
                         schedule.todo,
                         schedule.createdAt,
                         schedule.updatedAt,
+                        Projections.constructor(MemberDto.class, // memberDto 매핑 추가
+                                member.id,
+                                member.name,
+                                member.email,
+                                member.createdAt,
+                                member.updatedAt
+                        ),
                         comment.count().as("commentCount")
                 ))
                 .from(schedule)
                 .leftJoin(comment).on(comment.schedule.id.eq(schedule.id))
-                .groupBy(schedule.id)
+                .leftJoin(member).on(member.id.eq(schedule.member.id))
+                .groupBy(schedule.id, member.id)
                 .orderBy(schedule.updatedAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
