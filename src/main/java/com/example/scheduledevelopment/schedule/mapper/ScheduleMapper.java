@@ -3,6 +3,7 @@ package com.example.scheduledevelopment.schedule.mapper;
 import com.example.scheduledevelopment.comment.mapper.CommentMapper;
 import com.example.scheduledevelopment.member.mapper.MemberMapper;
 import com.example.scheduledevelopment.schedule.dto.ScheduleDto;
+import com.example.scheduledevelopment.schedule.dto.ScheduleResponseDto;
 import com.example.scheduledevelopment.schedule.entity.Schedule;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -22,4 +23,7 @@ public interface ScheduleMapper {
     @Mapping(source = "memberDto", target = "member")
         // Dto -> Entity
     Schedule toEntity(ScheduleDto scheduleDto);
+
+    @Mapping(source = "memberDto.id", target = "memberId")
+    ScheduleResponseDto toResponseDto(ScheduleDto scheduleDto);
 }
