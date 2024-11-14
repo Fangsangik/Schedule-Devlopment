@@ -5,10 +5,10 @@
 ## 👨‍💻 Period : 2024/11/12 ~ 2024/11/13
 
 ## ERD 
-![ERD](https://github.com/user-attachments/assets/1f7a32e0-b049-470f-aab9-732ddd96a942)
+![ERD](https://github.com/user-attachments/assets/1b423880-afe5-4040-a287-3e978a1b3117)
 회원과 스케줄을 1 : 1 관계를 성립해 회원의 값이 삭제 되면 스케줄의 값이 삭제 되도록 설정했고, 
 스케줄과 댓글을 1 : 1 관계를 성립해 스케줄이 삭제되면 댓글도 삭제되게 했다. 
-그러면 회원이 삭제되면 스케줄 댓글이 삭제 되기 때문에 이렇게 설정 했습니다. 
+회원과 댓글 또한 1 : 1 관계를 성립해, 회원 삭제시 댓글 삭제되게 했다. 
 
 ## API 명세서 
 <a href>https://www.postman.com/gold-robot-131519/myapi/documentation/4xuox4d/scheduleapi?workspaceId=c64232d4-fdd3-46da-b127-41e93826dc0a
@@ -82,6 +82,7 @@
 
 ## 🥵 Trouble Shooting 
 1. 연관관계에 대한 고민 때문에 Member와 Comment를 연관관계를 성립하는게 맞는지에 대한 고민 
+
 if) 여러 회원이 여러 댓글을 사용 해야 한다면 회원에 comment를 주는게 맞지만 그게 아니라면, 회원 한명이 댓글을 하나씩 관리하는 것이 맞다. 
 설계에 따라 연관관계의 설정이 달라질 것 같아 그 부분에 대한 고민 
 
@@ -95,7 +96,8 @@ abstract에 대한 설정을 빼먹었습니다.
    controller에 Response 값을 받을 수 있도록 설계
 2. Schedule에서 CommentCount가 즉각 반영이 안되어서 QueryDsl로 문제를 해결
 3. QueryDsl을 사용하기 위해서 생성자 따로 생성
-4. Mapstruct 부분에 ResponseDto 값 추가 
+4. Mapstruct 부분에 ResponseDto 값 추가
+5. 회원과 댓글 연관관계 setting 
 
 ## 👨‍💻 이번 프로젝트때 시도해 본 것과 이유 
 
